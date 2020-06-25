@@ -20,7 +20,7 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 
 public class WordlistCommand extends Command{
 	
-	private static final String command = "wordlist";
+	private static final String command = "scribbl";
 	private static final int deleteDelay = 3000;
 	private static final char listSeperator = ',';
 	
