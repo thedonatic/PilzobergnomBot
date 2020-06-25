@@ -5,6 +5,7 @@ import java.util.Map;
 
 import de.donatic.Bot;
 import de.donatic.command.Command;
+import de.donatic.util.Logger;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 
@@ -20,7 +21,9 @@ public class MessageHandler {
 	}
 	
 	public void onMessage(MessageCreateEvent event) {
-		//Check commands
+		if(event.getMember().get().isBot())
+			return;
+		Logger.log(this, "Recived message: "+event.getMessage().getContent(), Logger.INCOMINGMESSAGE);
 		String message = event.getMessage().getContent();
 		String prefix = String.valueOf(bot.getConfig().getCommandPrefix());
 		if(message.startsWith(prefix)) {

@@ -11,6 +11,8 @@ import java.util.TimerTask;
 
 import de.donatic.command.Command;
 import de.donatic.discord.MessageHandler;
+import de.donatic.discord.MessageTask;
+import de.donatic.util.Logger;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
@@ -31,31 +33,31 @@ public class WordlistCommand extends Command{
 	@Override
 	public void onCommand(MessageCreateEvent event) {
 		String message = event.getMessage().getContent();
-		String[] args = message.split(" ");
+		String[] args = message.split("\"");
 		if(args.length == 1) {
 			onGet(event);
 		}
 		else if(args.length == 2) {
 			onAdd(args[1],event);
 		}
-		deleteMessage(event.getMessage());
 	}
 	
 	private void onAdd(String word,MessageCreateEvent event) {
 		if(checkForWord(word)) {
-			System.out.println("Word "+word+" is already in the list");
-			event.getMessage().getChannel().block().createMessage(word+" is already in the list of doom").block();
+			Logger.log(this,"Word "+word+" is already in the list",Logger.INFO);
+			new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),word+" is already in the list of doom",deleteDelay);
 		}else {
 			System.out.println("Add word "+word);
+			Logger.log(this, "Add word "+word+" to wordlist", Logger.INFO);
 			appendFileToList(word);
-			event.getMessage().getChannel().block().createMessage("Added "+word+" to the list of doom").block();
+			new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),"Added "+word+" to the list of doom",deleteDelay);
 		}
+		new MessageTask().deleteMessage(event.getMessage(), deleteDelay);
 	}
 	
 	private void onGet(MessageCreateEvent event) {
 		System.out.println("Get words");
-		final MessageChannel channel = event.getMessage().getChannel().block();
-		channel.createMessage("Here is the list of doom").block();
+		new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),"Not availible yet",deleteDelay);
 	}
 	
 	private void onEdit() {
@@ -109,25 +111,6 @@ public class WordlistCommand extends Command{
 			}
 		}
         return false;
-	}
-	
-	private void deleteMessage(Message message) {
-		Timer time = new Timer();
-		time.schedule(new DeleteMessageTask(message), WordlistCommand.deleteDelay);
-	}
-	
-	class DeleteMessageTask extends TimerTask {
-
-	    private final Message message;
-
-
-	    DeleteMessageTask(Message message){
-	      this.message = message;
-	    }
-
-	    public void run() {
-	       this.message.delete();
-	    }
 	}
 	
 }
