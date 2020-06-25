@@ -14,7 +14,6 @@ public class ConfigHandler {
 	
 	public ConfigHandler() {
 		reloadData();
-		System.out.println(ConfigHandler.configFile.getAbsolutePath());
 	}
 	
 	public char getCommandPrefix() {

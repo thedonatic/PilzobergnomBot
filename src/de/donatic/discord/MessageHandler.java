@@ -27,7 +27,6 @@ public class MessageHandler {
 		String message = event.getMessage().getContent();
 		String prefix = String.valueOf(bot.getConfig().getCommandPrefix());
 		if(message.startsWith(prefix)) {
-			System.out.println("Recived message" + event.getMessage().getContent());
 			Command c = commandList.get(event.getMessage().getContent().split(" ")[0].substring(1));
 			if(c != null) 
 				c.onCommand(event);
