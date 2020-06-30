@@ -15,7 +15,7 @@ public class SkribblIoConnector {
 	private boolean init = false;
 	
 	 public SkribblIoConnector() {
-		System.setProperty("webdriver.gecko.driver", "D:/Programme/Geckodriver/geckodriver.exe");
+		System.setProperty("webdriver.gecko.driver", "G:/Programme/Geckodriver/geckodriver.exe");
 		FirefoxOptions options = new FirefoxOptions();
 		options.setHeadless(true);
 		foxDriver = new FirefoxDriver(options);
