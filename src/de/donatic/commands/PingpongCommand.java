@@ -15,7 +15,7 @@ public class PingpongCommand extends Command {
 		
 		int random;
 		random = (int) (Math.random() * 100);
-		
+		System.out.println(random);
 		if(random <= 69 && random >=68) {
 			event.getMessage().getChannel().block().createMessage("du hurensohn").block();
 		}

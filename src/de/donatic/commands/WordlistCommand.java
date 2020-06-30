@@ -21,7 +21,6 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 public class WordlistCommand extends Command{
 	
 	private static final String command = "scribbl";
-	private static final int deleteDelay = 3000;
 	private static final char listSeperator = ',';
 	
 	private File wordListFile;
@@ -45,17 +44,17 @@ public class WordlistCommand extends Command{
 		else if(args.length == 4 || args.length == 5) {
 			onEdit(args[1],args[3]);
 		}
-		new MessageTask().deleteMessage(event.getMessage(), deleteDelay);
+		new MessageTask().deleteMessageWithDelfaultDelay(event.getMessage());
 	}
 	
 	private void onAdd(String word,MessageCreateEvent event) {
 		if(checkForWord(word)) {
 			Logger.log(this,"Word "+word+" is already in the list",Logger.INFO);
-			new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),word+" is already in the list of doom",deleteDelay);
+			new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),word+" is already in the list of doom");
 		}else {
 			Logger.log(this, "Add word "+word+" to wordlist", Logger.INFO);
 			appendFileToList(word);
-			new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),"Added "+word+" to the list of doom",deleteDelay);
+			new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),"Added "+word+" to the list of doom");
 		}
 	}
 	
@@ -70,7 +69,7 @@ public class WordlistCommand extends Command{
 			new MessageTask().send(event.getMessage().getChannel().block(),"Link to lobby: "+connector.getInviteLink());
 		}else {
 			connector.startGame();
-			new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),"Starting Game",deleteDelay);
+			new MessageTask().sendAndDelete(event.getMessage().getChannel().block(),"Starting Game");
 			connector.close();
 			connector = null;
 		}

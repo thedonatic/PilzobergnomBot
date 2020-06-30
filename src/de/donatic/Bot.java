@@ -3,6 +3,7 @@ package de.donatic;
 import java.io.File;
 
 import de.donatic.commands.PingpongCommand;
+import de.donatic.commands.RandomCommand;
 import de.donatic.commands.WordlistCommand;
 import de.donatic.config.ConfigHandler;
 import de.donatic.discord.MessageHandler;
@@ -36,6 +37,7 @@ public class Bot {
 	private void initCommands() {
 		new WordlistCommand(messageHandler,new File(configHandler.getWordListFile()));
 		new PingpongCommand(messageHandler);
+		new RandomCommand(messageHandler);
 	}
 	
 }

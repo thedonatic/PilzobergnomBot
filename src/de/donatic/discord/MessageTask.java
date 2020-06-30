@@ -9,6 +9,8 @@ import discord4j.core.object.entity.channel.MessageChannel;
 
 public class MessageTask {
 
+	private static final int deleteDelay = 3000;
+	
 	public MessageTask() {
 	}
 	
@@ -17,9 +19,18 @@ public class MessageTask {
 		return channel.createMessage(message).block();
 	}
 	
-	public void sendAndDelete(MessageChannel channel, String message, int destroyAfter) {
+	public void sendAndDelete(MessageChannel channel, String message, int delay) {
 		Message m = send(channel,message);
-		deleteMessage(m,destroyAfter);
+		deleteMessage(m,delay);
+	}
+	
+	public void sendAndDelete(MessageChannel channel, String message) {
+		Message m = send(channel,message);
+		deleteMessageWithDelfaultDelay(m);
+	}
+	
+	public void deleteMessageWithDelfaultDelay(Message message) {
+		deleteMessage(message,deleteDelay);
 	}
 	
 	public void deleteMessage(Message message, int delay) {
